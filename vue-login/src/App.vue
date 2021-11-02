@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    <div class="container-title">
+    <div class="container-title" v-if="notIsLoginPage">
       <h1 class="title">Teste Diego</h1>
       <button class="btn-login" @click="goToLogin">Login</button>
     </div>
@@ -12,7 +12,7 @@
   export default {
   computed: {
     notIsLoginPage() {
-      return this.$route.name !== "login" && this.$route.name !== "register";
+      return this.$route.name !== "login" && this.$route.name !== "register" && this.$route.name !== "homepage";
     }
   },
 
