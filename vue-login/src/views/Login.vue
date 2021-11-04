@@ -11,6 +11,7 @@
             placeholder="dego@email.com"
             autocomplete="off"
             v-model="email"
+            :rules="[(v) => !!v || 'Campo obrigatório']"
           ></v-text-field>
           <v-text-field
             label="Senha:"
@@ -18,6 +19,7 @@
             type="password"
             placeholder="Digite aqui a sua senha"
             v-model="password"
+            :rules="[(v) => !!v || 'Campo obrigatório']"
           ></v-text-field>
 
           <v-btn type="button" class="btn-entrar" @click="login">Entrar</v-btn>
@@ -32,6 +34,8 @@
 </template>
 
 <script>
+import { required, minLength, email } from "vuelidate/lib/validators";
+
 export default {
   data() {
     return {
@@ -39,6 +43,22 @@ export default {
       password: "",
     };
   },
+
+  validations: {
+    form: {
+      email: {
+        required,
+        email,
+      },
+
+      password: {
+        required,
+        minLength: minLength(6),
+      },
+
+    },
+  },
+
 
   methods: {
     async login() {
@@ -63,6 +83,10 @@ export default {
       });
       console.log(userValid);
 
+      if (this.email == null || this.email == "") {
+        alert("Preencher todos os campos");
+        return false
+      }
       if (
         this.email == userValid.email &&
         this.password == userValid.password
@@ -95,12 +119,13 @@ export default {
 <style scoped>
 .container {
   width: 250px;
-  background-color: rgb(160, 185, 202);
+  background-color: rgba(85, 136, 170, 0.425);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   margin-top: 70px;
+  border-radius: 10px;
 }
 
 .section {

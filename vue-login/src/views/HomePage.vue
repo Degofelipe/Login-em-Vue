@@ -42,7 +42,7 @@
 </script>
 <style>
     .mainContainer{
-   background-image: url('../assets/código-do-javascript-no-software-suporte-programador-typing-new-lines-html-112936678.jpg');
+   background-image: url('../assets/plano-de-fundo-texturizado-em-aquarela-azul-claro_53876-103486.jpg');
    background-size: cover;
  }
     .v-toolbar__content {
@@ -50,16 +50,13 @@
         display: flex;
         justify-content: space-between;
         position: relative;
-        background-color: rgb(6, 17, 70);
+        background-color: rgba(36, 166, 226, 0.479);
     }
 
     .menuList {
         padding-top: 30px;
-        background-color: rgb(191, 191, 240);
+        background-color: rgb(191, 222, 240);
         height: 100vh;
-    }
-    .menu{
-
     }
 
     .itemList {
@@ -74,7 +71,7 @@
     }
 
     .v-application a:hover {
-        color: rgb(9, 21, 190);
+        color: rgb(3, 3, 8);
     }
 
 </style>

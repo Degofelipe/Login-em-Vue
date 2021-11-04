@@ -30,19 +30,19 @@
 
 <style>
  #app{
-   background-image: url('./assets/código-do-javascript-no-software-suporte-programador-typing-new-lines-html-112936678.jpg');
+   background-image: url('./assets/plano-de-fundo-texturizado-em-aquarela-azul-claro_53876-103486.jpg');
    background-size: cover;
  }
 .container-title{
   height: 50px;
   display: flex;
   align-items: center;
-  background-color: rgb(6, 17, 70);
+  background-color: rgba(36, 166, 226, 0.479);
   justify-content: space-between;
 }
 
 .title{
-  color: rgb(175, 220, 247);
+  color: rgb(11, 50, 100);
   margin-left: 30px;
 }
 
