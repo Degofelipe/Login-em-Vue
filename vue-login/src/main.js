@@ -7,12 +7,8 @@ import vuetify from './plugins/vuetify';
 
 Vue.use(vuetify);
 
-import Vuelidate from "vuelidate";
-Vue.use(Vuelidate);
-
-import axios from "axios";
-import { Model } from "vue-api-query";
-Model.$http = axios;
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
 
 Vue.config.productionTip = false;
 

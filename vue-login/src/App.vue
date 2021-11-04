@@ -1,52 +1,52 @@
 <template>
-  <div id="app">
+  <v-app>
     <router-view />
     <div class="container-title" v-if="notIsLoginPage">
       <h1 class="title">Teste Diego</h1>
-      <button class="btn-login" @click="goToLogin">Login</button>
+      <v-btn class="btn-login" @click="goToLogin">Login</v-btn>
     </div>
-  </div>
+
+  </v-app>
 </template>
 
 <script>
+
   export default {
+
   computed: {
     notIsLoginPage() {
       return this.$route.name !== "login" && this.$route.name !== "register" && this.$route.name !== "homepage";
     }
   },
-
-  methods: {
-    logout() {
-      localStorage.removeItem('authUser');
-      this.$router.push({name: "login"});
-    },
+  methods:{
     goToLogin() {
       this.$router.push({ name: "login" });
     },
   }
+
 }
 
 </script>
 
 <style>
+ #app{
+   background-image: url('./assets/código-do-javascript-no-software-suporte-programador-typing-new-lines-html-112936678.jpg');
+   background-size: cover;
+ }
 .container-title{
-display: flex;
-justify-content: space-between;
-align-items: center;
-background-color: rgb(161, 172, 169);
+  height: 50px;
+  display: flex;
+  align-items: center;
+  background-color: rgb(6, 17, 70);
+  justify-content: space-between;
 }
 
 .title{
-  color: rgb(61, 61, 61);
+  color: rgb(175, 220, 247);
   margin-left: 30px;
-  padding-top: 8px;
-
 }
+
 .btn-login{
-  display: block;
   margin-right: 30px;
-  border-radius: 30px;
-  width: 100px;
 }
 </style>

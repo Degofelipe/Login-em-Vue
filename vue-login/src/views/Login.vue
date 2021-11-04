@@ -1,86 +1,81 @@
 <template>
-  <div class="container">
-    <div class="section">
-      <h2>Faça o login</h2>
-      <v-form ref="form">
-        <v-text-field
-          label="Email?"
-          id="email"
-          type="email"
-          placeholder="dego@email.com"
-          autocomplete="off"
-          v-model.trim="$v.form.email.$model"
-        ></v-text-field>
-        <v-text-field
-          label="Senha:"
-          id="password"
-          type="password"
-          placeholder="Digite aqui a sua senha"
-          v-model.trim="$v.form.password.$model"
-        ></v-text-field>
 
-        <v-btn type="button" class="btn" @click="login">Entrar</v-btn>
+    <div class="container">
+      <div class="section">
+        <h2>Faça o login</h2>
+        <v-form ref="form">
+          <v-text-field
+            label="Email:"
+            id="email"
+            type="email"
+            placeholder="dego@email.com"
+            autocomplete="off"
+            v-model="email"
+          ></v-text-field>
+          <v-text-field
+            label="Senha:"
+            id="password"
+            type="password"
+            placeholder="Digite aqui a sua senha"
+            v-model="password"
+          ></v-text-field>
 
-        <v-btn type="button" class="btn" @click="goToRegister">
-          Não tenho conta
-        </v-btn>
-      </v-form>
+          <v-btn type="button" class="btn-entrar" @click="login">Entrar</v-btn>
+
+          <v-btn type="button" class="btn-cadastrar" @click="goToRegister">
+            Cadastrar-se
+          </v-btn>
+        </v-form>
+      </div>
     </div>
-  </div>
+
 </template>
 
 <script>
-import { required, minLength, email } from "vuelidate/lib/validators";
-import UsersModel from "@/models/UsersModel";
-import ToastMixin from "@/mixins/toastMixin.js";
-
 export default {
-  mixins: [ToastMixin],
-
   data() {
     return {
-      form: {
-        email: "",
-        password: "",
-      },
+      email: "",
+      password: "",
     };
-  },
-
-  validations: {
-    form: {
-      email: {
-        required,
-        email,
-      },
-
-      password: {
-        required,
-        minLength: minLength(6),
-      },
-    },
   },
 
   methods: {
     async login() {
-      this.$v.$touch();
-      if (this.$v.$error) return;
+      let listaUser = [];
 
-      let user = await UsersModel.params({ email: this.form.email }).get();
+      let userValid = {
+        name: "",
+        email: "",
+        password: "",
+      };
 
-      if (!user || !user[0] || !user[0].email) {
-        alert("Usuário e/ou senha incorretos");
-        this.clearForm();
-        return;
+      listaUser = JSON.parse(localStorage.getItem("listaUser"));
+
+      listaUser.forEach((item) => {
+        if (this.email == item.email && this.password == item.password) {
+          userValid = {
+            name: item.name,
+            email: item.email,
+            password: item.password,
+          };
+        }
+      });
+      console.log(userValid);
+
+      if (
+        this.email == userValid.email &&
+        this.password == userValid.password
+      ) {
+        this.$router.push({ name: "homepage" });
+
+        let token =
+          Math.random().toString(16).substring(2) +
+          Math.random().toString(16).substring(2);
+        localStorage.setItem("token", token);
+      } else {
+        alert("Usuário e/ou senha incorretos!");
       }
-      user = user[0];
-      if (user.password !== this.form.password) {
-        alert("Usuário e/ou senha incorretos");
-        this.clearForm();
-        return;
-      }
-
-      localStorage.setItem("authUser", JSON.stringify(user));
-      this.$router.push({ name: "homepage" });
     },
 
     clearForm() {
@@ -88,14 +83,6 @@ export default {
         email: "",
         password: "",
       };
-    },
-
-    getValidation(field) {
-      if (this.$v.form.$dirty === false) {
-        return null;
-      }
-
-      return !this.$v.form[field].$error;
     },
 
     goToRegister() {
@@ -107,16 +94,22 @@ export default {
 
 <style scoped>
 .container {
-  width: 100%;
+  width: 250px;
+  background-color: rgb(160, 185, 202);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
+  margin-top: 70px;
 }
+
 .section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 200px;
+}
+.btn-entrar {
+  margin-bottom: 10px;
 }
 </style>

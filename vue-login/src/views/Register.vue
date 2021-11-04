@@ -1,62 +1,73 @@
 <template>
-  <div class="container">
+<div class="body-container">
+  <div class="container-register">
     <h2>Faça o seu cadastro</h2>
     <v-form class="section">
       <v-text-field
+        v-model="name"
         label="Nome"
         id="name"
         type="text"
         placeholder="Digite seu nome"
         autocomplete="off"
-        v-model.trim="$v.form.name.$model"
-        :state="getValidation('name')"
+
       >
       </v-text-field>
+
       <v-text-field
-        label="Email?"
+        v-model="email"
+        label="Email"
         id="email"
         type="email"
         placeholder="dego@email.com"
         autocomplete="off"
-        v-model.trim="$v.form.email.$model"
-        :state="getValidation('email')"
+
+
       ></v-text-field>
+
       <v-text-field
         label="Senha:"
         id="password"
         type="password"
         placeholder="Digite aqui a sua senha"
-        v-model.trim="$v.form.password.$model"
-        :state="getValidation('password')"
+        v-model="password"
+
+
       ></v-text-field>
+
       <v-text-field
-        label="Senha:"
+        label="Confirme sua senha:"
         id="confirmPassword"
         type="password"
         placeholder="Digite aqui a sua senha"
-        v-model.trim="$v.form.confirmPassword.$model"
+        v-model="confirmPassword"
         :state="getValidation('confirmPassword')"
+        required
       ></v-text-field>
-      <v-btn type="button" @click="register">Cadastrar</v-btn>
+
+      <v-btn class="btn-cadastrar" type="button" @click="cadastrar">Cadastrar</v-btn>
       <hr />
       <v-btn type="button" @click="goToLogin">Voltar</v-btn>
     </v-form>
   </div>
+</div>
 </template>
 
 <script>
-import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
-import UsersModel from "@/models/UsersModel";
+
+  import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
+  import ToastMixin from "../mixins/toastMixin.js";
 
 export default {
+
+  mixins: [ToastMixin],
+
   data() {
     return {
-      form: {
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      },
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword:'',
     };
   },
 
@@ -79,25 +90,32 @@ export default {
 
       confirmPassword: {
         required,
-        sameAsPassword: sameAs("password"),
-      },
+        sameAsPassword: sameAs('password')
+      }
     },
   },
 
+
+
   methods: {
-    register() {
-      this.$v.$touch();
-      if (this.$v.$error) return;
 
-      const user = new UsersModel(this.form);
-      user.save();
+    cadastrar(){
+      let listaUser = JSON.parse(localStorage.getItem('listaUser') || '[]')
 
-      alert("Usuário cadastrado com sucesso!");
+        listaUser.push(
+          {
+            name: this.name,
+            email: this.email,
+            password: this.password
+          }
+        );
+      localStorage.setItem('listaUser', JSON.stringify(listaUser));
+      alert("Usuário cadastrado com sucesso");
       this.goToLogin();
     },
 
     getValidation(field) {
-      if (this.$v.form.$dirty === false) {
+      if (this.form === "") {
         return null;
       }
 
@@ -112,17 +130,31 @@ export default {
 </script>
 
 <style>
-.container {
+.body-container{
   width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.container-register {
+  width: 250px;
+  height: 470px;
+  padding: 20px;
+  background-color: rgb(160, 185, 202);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
+  margin-top: 20px;
+
 }
 .section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 200px;
+}
+.btn-cadastrar{
+  margin-bottom: 10px;
 }
 </style>
