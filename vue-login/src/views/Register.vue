@@ -22,7 +22,7 @@
           type="email"
           placeholder="dego@email.com"
           autocomplete="off"
-          :rules="[(v) => !!v || 'Campo obrigatório']"
+          :rules="[ (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)|| 'Formato inválido']"
           required
         ></v-text-field>
 
@@ -99,7 +99,10 @@ export default {
     cadastrar() {
       let listaUser = JSON.parse(localStorage.getItem("listaUser") || "[]");
 
-      if (this.email == null || this.email == "") {
+      if (this.name == null || this.name == "" &&
+      this.email == null || this.email == "" &&
+      this.password == null || this.password == "" &&
+      this.confirmPassword == null || this.confirmPassword == "") {
         alert("Preencher todos os campos");
       }else{
       listaUser.push({

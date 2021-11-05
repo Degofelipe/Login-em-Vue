@@ -11,7 +11,8 @@
             placeholder="dego@email.com"
             autocomplete="off"
             v-model="email"
-            :rules="[(v) => !!v || 'Campo obrigatório']"
+            :rules="[ (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)|| 'Formato inválido']"
+            required
           ></v-text-field>
           <v-text-field
             label="Senha:"
@@ -20,6 +21,7 @@
             placeholder="Digite aqui a sua senha"
             v-model="password"
             :rules="[(v) => !!v || 'Campo obrigatório']"
+            required
           ></v-text-field>
 
           <v-btn type="button" class="btn-entrar" @click="login">Entrar</v-btn>
@@ -83,7 +85,9 @@ export default {
       });
       console.log(userValid);
 
-      if (this.email == null || this.email == "") {
+      if (
+        this.email == null || this.email == "" &&
+        this.password == null || this.password == "") {
         alert("Preencher todos os campos");
         return false
       }
