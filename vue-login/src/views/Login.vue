@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { required, minLength, email } from "vuelidate/lib/validators";
 
 export default {
   data() {
@@ -45,22 +44,6 @@ export default {
       password: "",
     };
   },
-
-  validations: {
-    form: {
-      email: {
-        required,
-        email,
-      },
-
-      password: {
-        required,
-        minLength: minLength(6),
-      },
-
-    },
-  },
-
 
   methods: {
     async login() {

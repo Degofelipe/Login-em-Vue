@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
 
 export default {
   data() {
@@ -71,30 +70,6 @@ export default {
     };
   },
 
-  validations: {
-    form: {
-      name: {
-        required,
-        minLength: minLength(3),
-      },
-
-      email: {
-        required,
-        email,
-      },
-
-      password: {
-        required,
-        minLength: minLength(6),
-      },
-
-      confirmPassword: {
-        required,
-        sameAsPassword: sameAs("password"),
-      },
-    },
-  },
-
   methods: {
     cadastrar() {
       let listaUser = JSON.parse(localStorage.getItem("listaUser") || "[]");
@@ -103,7 +78,11 @@ export default {
       this.email == null || this.email == "" &&
       this.password == null || this.password == "" &&
       this.confirmPassword == null || this.confirmPassword == "") {
-        alert("Preencher todos os campos");
+        alert("Preencher todos os campos")
+        return false;
+      }if(this.password !== this.confirmPassword)
+      {alert("Senhas não conferem")
+        return false
       }else{
       listaUser.push({
         name: this.name,
@@ -114,14 +93,6 @@ export default {
       alert("Usuário cadastrado com sucesso");
       this.goToLogin();
       }
-    },
-
-    getValidation(field) {
-      if (this.email === "") {
-        return null;
-      }
-
-      return !this.$v.form[field].$error;
     },
 
     goToLogin() {
